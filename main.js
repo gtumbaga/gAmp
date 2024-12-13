@@ -1,12 +1,13 @@
 // main.js
 const { app, BrowserWindow, ipcMain } = require('electron');
+const commonWindowWidth = 450;
 
 let mainWindow;
 let playlistWindow = null;
 
 app.on('ready', () => {
     mainWindow = new BrowserWindow({
-        width: 500,
+        width: commonWindowWidth,
         height: 200,
         resizable: false,
         minimizable: false,
@@ -33,7 +34,7 @@ app.on('ready', () => {
         if (playlistWindow === null) {
             const mainWindowBounds = mainWindow.getBounds();
             playlistWindow = new BrowserWindow({
-                width: 500,
+                width: commonWindowWidth,
                 height: 400,
                 x: mainWindowBounds.x,  // Same x position as main window
                 y: mainWindowBounds.y + mainWindowBounds.height, // Below main window

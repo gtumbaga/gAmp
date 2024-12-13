@@ -7,19 +7,28 @@
 </head>
 
 <body>
-    <div id="titleBar" class="titleBar" style="-webkit-app-region: drag;">
+    <div id="titleBar" class="titleBar">
         <div class="pillOutter">
-            <div class="pill"></div>
+            <div class="pill draggable"></div>
         </div>
-        <div class="title">gAMP</div>
+        <div class="title draggable">gAMP</div>
         <div class="pillOutter">
-            <div class="pill"></div>
-            <div class="controls">_-x</div>
+            <div class="pill draggable"></div>
+            <div class="controls">
+                <button class="btn btn-trafficlight"><i class="icn icn-minimize"></i></button>
+                <!-- <button class="btn btn-trafficlight"><i class="icn icn-shrink"></i></button> -->
+                <button class="btn btn-trafficlight"><i class="icn icn-close"></i></button>
+            </div>
         </div>
     </div>
     <div class="body">
-        <h1>Hello, Electron!</h1>
-        <button id="open-playlist-window">Open Playlist Window</button>
+
+        <!-- <button id="open-playlist-window">Open Playlist Window</button> -->
+        <div class="windowButtonsHolder optionButtons">
+            <button class="btn"><i class="icn icn-light"></i> EQ</button>
+            <button class="btn" id="open-playlist-window"><i class="icn icn-light"></i> PL</button>
+        </div>
+        <input type="range" class="progressBar">
         <div class="buttonsHolder">
             <div class="mainButtons">
                 <button class="btn"><i class="icn icn-back"></i></button>

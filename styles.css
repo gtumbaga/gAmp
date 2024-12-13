@@ -1,3 +1,8 @@
+:root {
+    --borderLight: #777578;
+    --borderDark: #212035;
+}
+
 html * {
     box-sizing: border-box;
 }
@@ -17,9 +22,12 @@ body {
     border-right-color: #16172E; */
 }
 
-.titleBar {
+.draggable {
     -webkit-app-region: drag;
+}
+.titleBar {
     -webkit-user-select: none;
+    user-select: none;
     background: transparent;
     color: #fff;
     padding: 0px 4px;
@@ -30,7 +38,7 @@ body {
     position: fixed;
     height: 20px;
     line-height: 20px;
-    pointer-events: none;
+    /* pointer-events: none; */
     position: fixed;
     top: 0;
 
@@ -40,7 +48,11 @@ body {
     gap: 10px;
 }
 .titleBar .controls {
-    margin-right: 7px;
+    margin-right: 4px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 2px;
 }
 
 .titleBar .pillOutter {
@@ -76,7 +88,7 @@ body {
 .body {
     /* width: calc(100vw - 16px);
     height: calc(100vh - 20px); */
-    border: solid 5px #212035;
+    border: solid 5px var(--borderDark);
     /* border-top-width: 1px; */
     top: 20px;
     bottom: 8px;
@@ -84,7 +96,8 @@ body {
     right: 8px;
     position: fixed;
 
-    -webkit-box-shadow: 1px 1px 0px 0px #777578, inset 1px 1px 0px 0px #777578;
+    -webkit-box-shadow: 1px 1px 0px 0px var(--borderLight), inset 1px 1px 0px 0px var(--borderLight);
+    box-shadow: 1px 1px 0px 0px var(--borderLight), inset 1px 1px 0px 0px var(--borderLight);
     /* box-shadow: 1px 1px 0px 0px #82829B inset 1px 1px 0px 0px #fff; */
 }
 .buttonsHolder {
@@ -103,6 +116,7 @@ body {
     align-items: center;
     gap: 1px;
 }
+.windowButtonsHolder .btn,
 .buttonsHolder .btn {
     display: inline-block;
     margin: 0;
@@ -121,6 +135,7 @@ body {
         inset 0 0 3px 5px rgba(0,0,0,.05),
         2px 2px 4px 0 rgba(0,0,0,.0);
 }
+.windowButtonsHolder .btn:before,
 .buttonsHolder .btn:before {
     top: 0;
     border-bottom-left-radius: 4px;
@@ -128,6 +143,7 @@ body {
     background: rgba(255,255,255,.6);
     box-shadow: 0 1px 2px 0 rgba(255,255,255,.6);
 }
+.windowButtonsHolder .btn:after,
 .buttonsHolder .btn:after {
     bottom: 0;
     border-top-left-radius: 4px;
@@ -135,12 +151,14 @@ body {
     background: rgba(0,0,0,.15);
     box-shadow: 0 -1px 2px 0 rgba(0,0,0,.15);
 }
+.windowButtonsHolder .btn:active,
 .buttonsHolder .btn:active {
     background-color: #99A8BA;
     /* border-color: #2B2E46;
     border-bottom-color: #B2B5CB;
     border-right-color: #B2B5CB; */
 }
+.windowButtonsHolder .btn i,
 .buttonsHolder .btn i {
     display: block;
     width: 20px;
@@ -163,19 +181,20 @@ body {
 .buttonsHolder .otherButtons .btn {
     height: 22px;
 }
+.windowButtonsHolder .btn i,
 .buttonsHolder .otherButtons .btn i {
     width: 16px;
     height: 16px;
     mask-size: 16px 16px;
 }
-.buttonsHolder .optionButtons {
+.optionButtons {
     height: 16px;
     display: flex;
     justify-content: flex-start;
     align-items: center;
     gap: 1px;
 }
-.buttonsHolder .optionButtons .btn {
+.optionButtons .btn {
     width: auto;
     color: #152630;
     height: 16px;
@@ -186,7 +205,7 @@ body {
     font-size: 10px;
     overflow: hidden;
 }
-.buttonsHolder .btn i.icn-light {
+.btn i.icn-light {
     width: 7px;
     height: 7px;
     position: absolute;
@@ -202,3 +221,76 @@ body {
     background: #152630;
 }
 .buttonsHolder .btn .icn-repeat { mask-image: url('./img/icon-repeat-solid.svg'); }
+
+.btn-trafficlight {
+    width: 14px;
+    height: 14px;
+    min-width: 0;
+    background: #352B11;
+    background: #271A11;
+    background: linear-gradient(180deg, #271A11, #352B11);
+    border-radius: 4px;
+    border: solid 1px #000;
+    margin-top: 3px;
+    padding: 0;
+}
+.btn-trafficlight:active {
+    background: #333;
+}
+.btn-trafficlight i {
+    width: 10px;
+    height: 10px;
+    mask-size: 10px 10px;
+    background: #152630;
+    border-width: 1px;
+    display: block;
+    margin: 0 auto;
+    background-color: #887459;
+}
+.btn-trafficlight i.icn-minimize { mask-image: url('./img/icon-window-minimize-solid.svg'); }
+.btn-trafficlight i.icn-shrink { mask-image: url('./img/icon-shrink-solid.svg'); }
+.btn-trafficlight i.icn-close { mask-image: url('./img/icon-xmark-solid.svg'); }
+
+
+.progressBar {
+    height: 14px;
+    border: solid 2px var(--borderDark);
+    border-right-color: var(--borderLight);
+    border-bottom-color: var(--borderLight);
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    position: absolute;
+    left: 14px;
+    right: 14px;
+    width: unset;
+    bottom: 50px;
+    background: transparent;
+
+    -webkit-appearance: none;  /* Override default CSS styles */
+    appearance: none;
+    outline: none; /* Remove outline */
+}
+
+
+/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+.progressBar::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 50px;
+    height: 12px;
+    border: solid 2px #DBCAAE;
+    border-bottom-color: #89723C;
+    border-right-color: #89723C;
+    background: linear-gradient(180deg,#FEFFDF, #89723C);
+    cursor: pointer;
+}
+
+.progressBar::-webkit-slider-thumb:active {
+    background: linear-gradient(180deg,#D6D7BC, #695626);
+}
+
+.windowButtonsHolder {
+    position: absolute;
+    right: 14px;
+    bottom: 80px;
+}
