@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>My Electron App</title>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+
+<body>
+    <div id="titleBar" class="titleBar" style="-webkit-app-region: drag;">
+        <div class="pillOutter">
+            <div class="pill"></div>
+        </div>
+        <div class="title">gAMP</div>
+        <div class="pillOutter">
+            <div class="pill"></div>
+            <div class="controls">_-x</div>
+        </div>
+    </div>
+    <div class="body">
+        <h1>Hello, Electron!</h1>
+        <button id="open-playlist-window">Open Playlist Window</button>
+        <div class="buttonsHolder">
+            <div class="mainButtons">
+                <button class="btn"><i class="icn icn-back"></i></button>
+                <button class="btn"><i class="icn icn-play"></i></button>
+                <button class="btn"><i class="icn icn-pause"></i></button>
+                <button class="btn"><i class="icn icn-stop"></i></button>
+                <button class="btn"><i class="icn icn-forward"></i></button>
+            </div>
+            <div class="otherButtons">
+                <button class="btn"><i class="icn icn-eject"></i></button>
+            </div>
+            <div class="optionButtons">
+                <button class="btn"><i class="icn icn-light"></i> SHUFFLE</button>
+                <button class="btn"><i class="icn icn-light"></i> <div class="icn-repeat"></div></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const { ipcRenderer } = require('electron');
+
+        document.getElementById('open-playlist-window').addEventListener('click', () => {
+            ipcRenderer.send('open-playlist-window');
+        });
+    </script>
+</body>
+
+</html>
