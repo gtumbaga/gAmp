@@ -1,6 +1,22 @@
+@font-face {
+    font-family: 'digital';
+    src: url('./font/digital-7-mono.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Share Tech Mono';
+    src: url('./font/share-tech-mono.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 :root {
     --borderLight: #777578;
     --borderDark: #212035;
+    --fontColor: #17C818;
 }
 
 html * {
@@ -9,6 +25,7 @@ html * {
 
 body {
     font-family: 'Arial', sans-serif;
+    font-weight: normal;
     padding: 0;
     margin: 0;
     position: relative;
@@ -307,4 +324,67 @@ body {
     position: absolute;
     right: 14px;
     bottom: 80px;
+}
+
+.digitalDisplay {
+    position: absolute;
+    left: 16px;
+    top: 8px;
+    width: 150px;
+    height: 80px;
+    background: #000;
+    border: solid 2px var(--borderDark);
+    border-right-color: var(--borderLight);
+    border-bottom-color: var(--borderLight);
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+}
+.digitalDisplay .time {
+    font-family: 'digital';
+    color: var(--fontColor);
+    font-size: 34px;
+    line-height: 28px;
+    height: 28px;
+    width: 100px;
+    text-align: right;
+    position: absolute;
+    right: 4px;
+    top: 0;
+}
+
+.marqueeDisplay {
+    position: absolute;
+    color: var(--fontColor);
+    right: 14px;
+    top: 8px;
+    width: 238px;
+    height: 24px;
+    line-height: 22px;
+    font-family: 'Share Tech Mono', monospace;
+    font-weight: normal;
+    font-size: 12px;
+    background: #000;
+    border: solid 2px var(--borderDark);
+    border-right-color: var(--borderLight);
+    border-bottom-color: var(--borderLight);
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+
+    white-space: nowrap;
+    overflow: hidden;
+}
+.marqueeDisplay marquee {
+    display: block;
+    height: calc(100% - 2px);
+}
+.marqueeDisplay .track-info {
+    display: inline-block;
+    height: calc(100% - 2px);
+    animation: marquee 15s linear infinite;
+}
+
+@keyframes marquee {
+    0% { transform: translateX(4%); }
+    50% { transform: translateX(calc(-104% + 238px)); }
+    100% { transform: translateX(4%); }
 }

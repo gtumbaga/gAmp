@@ -2,6 +2,14 @@ const { ipcRenderer } = require('electron');
 // Get the elements
 const audio = document.querySelector('#audio');
 const progressBar = document.querySelector('.progressBar');
+const audioTime = document.querySelector('#audioTime');
+
+// Function to format time from seconds to MM:SS
+function formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = Math.floor(seconds % 60);
+    return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+}
 
 
 const handleChooseFile = async () => {
@@ -70,6 +78,7 @@ document.getElementById('btn-repeat').addEventListener('click', handleRepeat);
 audio.addEventListener('timeupdate', () => {
     const progress = (audio.currentTime / audio.duration) * 100;
     progressBar.value = progress;
+    audioTime.textContent = formatTime(audio.currentTime);
 });
 
 // Load metadata to set max value
