@@ -8,6 +8,8 @@ const trackInfo = document.querySelector('#trackInfo');
 const audioChannels = document.querySelector('#audioChannels');
 const fileSpeedKbps = document.querySelector('#fileSpeedKbps');
 const fileSpeedKhz = document.querySelector('#fileSpeedKhz');
+const volumeBar = document.querySelector('#volumeBar');
+const panBar = document.querySelector('#panBar');
 
 
 
@@ -141,4 +143,12 @@ audio.addEventListener('loadedmetadata', (e) => {
 progressBar.addEventListener('input', () => {
     const time = (progressBar.value / 100) * audio.duration;
     audio.currentTime = time;
+});
+
+volumeBar.addEventListener('input', () => {
+    audio.volume = volumeBar.value / 100;
+});
+
+panBar.addEventListener('input', () => {
+    audio.pan = panBar.value / 100;
 });
