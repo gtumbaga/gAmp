@@ -6,6 +6,8 @@ const progressBar = document.querySelector('.progressBar');
 const audioTime = document.querySelector('#audioTime');
 const trackInfo = document.querySelector('#trackInfo');
 const audioChannels = document.querySelector('#audioChannels');
+const fileSpeedKbps = document.querySelector('#fileSpeedKbps');
+const fileSpeedKhz = document.querySelector('#fileSpeedKhz');
 
 
 
@@ -30,6 +32,9 @@ async function updateTrackInfo(filePath) {
 
             const songInfo = `${artist} - ${title} (${formattedDuration}) *** ${fileName}`;
             trackInfo.textContent = songInfo;
+
+            fileSpeedKbps.textContent = kbps;
+            fileSpeedKhz.textContent = khz;
 
             if (stereo === 2) {
                 audioChannels.classList.add('stereo');

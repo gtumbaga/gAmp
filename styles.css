@@ -388,7 +388,7 @@ body {
 .audioChannels {
     position: absolute;
     right: 16px;
-    font-size: 10px;
+    font-size: 12px;
     font-weight: bold;
     top: 44px;
     text-align: right;
@@ -434,7 +434,7 @@ body {
     width: 18px;
     height: 14px;
     border: solid 1px #000;
-    border-radius: 3px;
+    /* border-radius: 3px; */
     /* border-bottom-color: #89723C;
     border-right-color: #89723C; */
     background: linear-gradient(180deg,#B3BCCD, #4D556A);
@@ -455,6 +455,34 @@ body {
 
 .bar::-webkit-slider-thumb:active {
     background: linear-gradient(180deg,#8A91A0, #2D3240);
+}
+
+.fileSpeedDisplay {
+    position: absolute;
+    left: 178px;
+    display: flex;
+    justify-content: flex-start;
+    top: 44px;
+    font-size: 11px;
+    color: #fff;
+    gap: 8px;
+}
+.fileSpeedDisplay .box {
+    font-family: 'Share Tech Mono', monospace;
+    margin-right: 4px;
+    display: inline-block;
+    width: 28px;
+    height: 16px;
+    font-size: 11px;
+    color: var(--fontColor);
+    background: #000;
+    text-align: center;
+
+    border: solid 2px var(--borderDark);
+    border-right-color: var(--borderLight);
+    border-bottom-color: var(--borderLight);
+    border-right-width: 1px;
+    border-bottom-width: 1px;
 }
 
 @keyframes marquee {
