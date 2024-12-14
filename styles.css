@@ -72,7 +72,7 @@ body {
     flex-grow: 1;
     position: relative;
 
-    background: linear-gradient(180deg, #86785F, #433b1e, #86785F);
+    background: linear-gradient(180deg, #FDFDD9, #433b1e, #FDFDD9);
 }
 
 .titleBar .pill::after {
@@ -212,6 +212,9 @@ body {
     top: 1px;
     left: 3px;
 }
+.btn.on i.icn-light {
+    background: #1EC11A;
+}
 
 .buttonsHolder .btn .icn-repeat {
     width: 10px;
@@ -245,7 +248,7 @@ body {
     border-width: 1px;
     display: block;
     margin: 0 auto;
-    background-color: #887459;
+    background-color: #FDFDD9;
 }
 .btn-trafficlight i.icn-minimize { mask-image: url('./img/icon-window-minimize-solid.svg'); }
 .btn-trafficlight i.icn-shrink { mask-image: url('./img/icon-shrink-solid.svg'); }
@@ -276,13 +279,24 @@ body {
 .progressBar::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 50px;
+    width: 40px;
     height: 12px;
     border: solid 2px #DBCAAE;
     border-bottom-color: #89723C;
     border-right-color: #89723C;
     background: linear-gradient(180deg,#FEFFDF, #89723C);
     cursor: pointer;
+    position: relative;
+}
+.progressBar::-webkit-slider-thumb::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 1px;
+    background-color: #000;
+    transform: translateY(-50%);
 }
 
 .progressBar::-webkit-slider-thumb:active {

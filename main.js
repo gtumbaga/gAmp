@@ -1,9 +1,25 @@
 // main.js
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const commonWindowWidth = 450;
+
 
 let mainWindow;
 let playlistWindow = null;
+let isPlaylistWindowOpen = false;
+
+ipcMain.handle('choose-file', async () => {
+    const result = await dialog.showOpenDialog({
+        properties: ['openFile'],
+        filters: [
+            { name: 'Audio Files', extensions: ['mp3', 'aac', 'm4a'] }
+        ]
+    });
+
+    if (!result.canceled && result.filePaths.length > 0) {
+        return result.filePaths[0];
+    }
+    return null;
+});
 
 app.on('ready', () => {
     mainWindow = new BrowserWindow({
@@ -30,7 +46,7 @@ app.on('ready', () => {
         mainWindow = null;
     });
 
-    ipcMain.on('open-playlist-window', () => {
+    ipcMain.on('toggle-playlist-window', (event) => {
         if (playlistWindow === null) {
             const mainWindowBounds = mainWindow.getBounds();
             playlistWindow = new BrowserWindow({
@@ -45,10 +61,20 @@ app.on('ready', () => {
             });
 
             playlistWindow.loadFile('playlist.html');
+            isPlaylistWindowOpen = true;
+            event.reply('playlist-window-status', true);
 
             playlistWindow.on('closed', () => {
                 playlistWindow = null;
+                isPlaylistWindowOpen = false;
+                if (mainWindow) {
+                    mainWindow.webContents.send('playlist-window-status', false);
+                }
             });
+        } else {
+            playlistWindow.close();
+            isPlaylistWindowOpen = false;
+            event.reply('playlist-window-status', false);
         }
     });
 });
@@ -64,18 +90,3 @@ app.on('activate', () => {
         createWindow();
     }
 });
-
-function createPlaylistWindow() {
-    playlistWindow = new BrowserWindow({
-        width: 400,
-        height: 300,
-        webPreferences: {
-            nodeIntegration: true,
-        },
-    });
-
-    playlistWindow.loadFile('playlist.html');
-    playlistWindow.on('closed', () => {
-        playlistWindow = null;
-    });
-}

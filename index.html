@@ -25,35 +25,30 @@
 
         <!-- <button id="open-playlist-window">Open Playlist Window</button> -->
         <div class="windowButtonsHolder optionButtons">
-            <button class="btn"><i class="icn icn-light"></i> EQ</button>
-            <button class="btn" id="open-playlist-window"><i class="icn icn-light"></i> PL</button>
+            <button id="btn-eq" class="btn"><i class="icn icn-light"></i> EQ</button>
+            <button id="open-playlist-window" class="btn"><i class="icn icn-light"></i> PL</button>
         </div>
         <input type="range" class="progressBar">
         <div class="buttonsHolder">
             <div class="mainButtons">
-                <button class="btn"><i class="icn icn-back"></i></button>
-                <button class="btn"><i class="icn icn-play"></i></button>
-                <button class="btn"><i class="icn icn-pause"></i></button>
-                <button class="btn"><i class="icn icn-stop"></i></button>
-                <button class="btn"><i class="icn icn-forward"></i></button>
+                <button id="btn-back" class="btn"><i class="icn icn-back"></i></button>
+                <button id="btn-play" class="btn"><i class="icn icn-play"></i></button>
+                <button id="btn-pause" class="btn"><i class="icn icn-pause"></i></button>
+                <button id="btn-stop" class="btn"><i class="icn icn-stop"></i></button>
+                <button id="btn-forward" class="btn"><i class="icn icn-forward"></i></button>
             </div>
             <div class="otherButtons">
-                <button class="btn"><i class="icn icn-eject"></i></button>
+                <button id="btn-eject" class="btn"><i class="icn icn-eject"></i></button>
             </div>
             <div class="optionButtons">
-                <button class="btn"><i class="icn icn-light"></i> SHUFFLE</button>
-                <button class="btn"><i class="icn icn-light"></i> <div class="icn-repeat"></div></button>
+                <button id="btn-shuffle" class="btn"><i class="icn icn-light"></i> SHUFFLE</button>
+                <button id="btn-repeat" class="btn"><i class="icn icn-light"></i> <div class="icn-repeat"></div></button>
             </div>
         </div>
     </div>
+    <audio id="audio"></audio>
 
-    <script>
-        const { ipcRenderer } = require('electron');
-
-        document.getElementById('open-playlist-window').addEventListener('click', () => {
-            ipcRenderer.send('open-playlist-window');
-        });
-    </script>
+    <script src="./index.js"></script>
 </body>
 
 </html>
