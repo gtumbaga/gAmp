@@ -1,7 +1,8 @@
 // main.js
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const mm = require('music-metadata');
 const commonWindowWidth = 450;
-
+const path = require('path');
 
 let mainWindow;
 let playlistWindow = null;
@@ -16,9 +17,25 @@ ipcMain.handle('choose-file', async () => {
     });
 
     if (!result.canceled && result.filePaths.length > 0) {
-        return result.filePaths[0];
+        const filePath = result.filePaths[0];
+        return filePath;
     }
     return null;
+});
+
+// Add this handler after your existing ipcMain.handle('choose-file') handler
+ipcMain.handle('get-audio-metadata', async (event, filePath) => {
+    try {
+        const metadata = await mm.parseFile(filePath);
+        // parse file name
+        const fileName = path.basename(filePath);
+        metadata.fileName = fileName;
+        // console.log(metadata);
+        return metadata;
+    } catch (error) {
+        console.error('Error reading metadata:', error);
+        return null;
+    }
 });
 
 app.on('ready', () => {

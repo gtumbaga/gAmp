@@ -29,7 +29,24 @@
             </div>
         </div>
         <div class="marqueeDisplay">
-            <div class="track-info">Black Eyed Peas - Where Is The Love (3:45)</div>
+            <marquee
+                id="trackInfo"
+                class="track-info"
+                behavior="scroll"
+                direction="left"
+                scrollamount="3"
+                loop="infinite"
+            > </marquee>
+        </div>
+        <div class="volumeDisplay">
+            <input type="range" class="volumeBar bar" max="100" value="100">
+        </div>
+        <div class="panDisplay">
+            <input type="range" class="panBar bar" max="100" value="50">
+        </div>
+        <div id="audioChannels" class="audioChannels">
+            <span class="mono">mono</span>
+            <span class="stereo">stereo</span>
         </div>
         <div class="windowButtonsHolder optionButtons">
             <button id="btn-eq" class="btn"><i class="icn icn-light"></i> EQ</button>

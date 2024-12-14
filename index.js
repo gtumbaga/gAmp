@@ -1,8 +1,51 @@
 const { ipcRenderer } = require('electron');
+
 // Get the elements
 const audio = document.querySelector('#audio');
 const progressBar = document.querySelector('.progressBar');
 const audioTime = document.querySelector('#audioTime');
+const trackInfo = document.querySelector('#trackInfo');
+const audioChannels = document.querySelector('#audioChannels');
+
+
+
+
+async function updateTrackInfo(filePath) {
+    try {
+        const metadata = await ipcRenderer.invoke('get-audio-metadata', filePath);
+        if (metadata) {
+            console.log('Song metadata:', metadata);
+            const artist = metadata.common.artist;
+            const title = metadata.common.title;
+            const duration = metadata.format.duration;
+            const formattedDuration = formatTime(duration);
+
+            const bitrate = metadata.format.bitrate;
+            const sampleRate = metadata.format.sampleRate;
+            const kbps = Math.round(bitrate / 1000);
+            const khz = Math.round(sampleRate / 1000);
+            const stereo = metadata.format.numberOfChannels;
+
+            const fileName = metadata.fileName;
+
+            const songInfo = `${artist} - ${title} (${formattedDuration}) *** ${fileName}`;
+            trackInfo.textContent = songInfo;
+
+            if (stereo === 2) {
+                audioChannels.classList.add('stereo');
+                audioChannels.classList.remove('mono');
+            } else {
+                audioChannels.classList.add('mono');
+                audioChannels.classList.remove('stereo');
+            }
+            // console.log(`${artist} - ${title} (${duration}) - ${bitrate}`);
+        } else {
+            console.error('No metadata found');
+        }
+    } catch (error) {
+        console.error('Error reading metadata:', error);
+    }
+}
 
 // Function to format time from seconds to MM:SS
 function formatTime(seconds) {
@@ -20,8 +63,10 @@ const handleChooseFile = async () => {
 }
 
 const handleLoadFile = (file) => {
-    document.getElementById('audio').src = file;
-    document.getElementById('audio').load();
+    audio.src = file;
+    audio.load();
+    console.log(audio);
+    updateTrackInfo(file);
 }
 
 const handlePlay = () => {
@@ -82,7 +127,7 @@ audio.addEventListener('timeupdate', () => {
 });
 
 // Load metadata to set max value
-audio.addEventListener('loadedmetadata', () => {
+audio.addEventListener('loadedmetadata', (e) => {
     progressBar.max = 100;
     progressBar.value = 0;
 });

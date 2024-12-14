@@ -17,6 +17,8 @@
     --borderLight: #777578;
     --borderDark: #212035;
     --fontColor: #17C818;
+    --backgroundDark: #161420;
+    --backgroundLight: #393957;
 }
 
 html * {
@@ -33,7 +35,7 @@ body {
     width: 100vw;
     position: relative;
     /* background: linear-gradient(to right, #161420, #393957, #161420); */
-    background: linear-gradient(90deg, #161420, #393957, #161420);
+    background: linear-gradient(90deg, var(--backgroundDark), var(--backgroundLight), var(--backgroundDark));
     /* border: solid 2px #777578;
     border-bottom-color: #16172E;
     border-right-color: #16172E; */
@@ -284,7 +286,7 @@ body {
     right: 14px;
     width: unset;
     bottom: 50px;
-    background: transparent;
+    background: linear-gradient(90deg, var(--backgroundDark), var(--backgroundLight), var(--backgroundDark));
 
     -webkit-appearance: none;  /* Override default CSS styles */
     appearance: none;
@@ -323,7 +325,7 @@ body {
 .windowButtonsHolder {
     position: absolute;
     right: 14px;
-    bottom: 80px;
+    bottom: 77px;
 }
 
 .digitalDisplay {
@@ -380,7 +382,79 @@ body {
 .marqueeDisplay .track-info {
     display: inline-block;
     height: calc(100% - 2px);
-    animation: marquee 15s linear infinite;
+    /* animation: marquee 15s linear infinite; */
+}
+
+.audioChannels {
+    position: absolute;
+    right: 16px;
+    font-size: 10px;
+    font-weight: bold;
+    top: 44px;
+    text-align: right;
+    color: #6D6E82;
+}
+.audioChannels.mono .mono {
+    color: var(--fontColor);
+    text-shadow: 0 0 2px var(--fontColor);
+}
+.audioChannels.stereo .stereo {
+    color: var(--fontColor);
+    text-shadow: 0 0 2px var(--fontColor);
+}
+.volumeDisplay {
+    position: absolute;
+    bottom: 74px;
+    left: 170px;
+    width: 108px;
+}
+.panDisplay {
+    position: absolute;
+    bottom: 74px;
+    right: 95px;
+    width: 50px;
+}
+.bar {
+    -webkit-appearance: none;
+    appearance: none;
+    outline: none;
+    width: 100%;
+    height: 10px;
+    border: solid 2px var(--borderDark);
+    border-right-color: var(--borderLight);
+    border-bottom-color: var(--borderLight);
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    background: transparent;
+    /* background: linear-gradient(90deg, var(--backgroundDark), var(--backgroundLight), var(--backgroundDark)); */
+}
+.bar::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 14px;
+    border: solid 1px #000;
+    border-radius: 3px;
+    /* border-bottom-color: #89723C;
+    border-right-color: #89723C; */
+    background: linear-gradient(180deg,#B3BCCD, #4D556A);
+    cursor: pointer;
+    position: relative;
+    top: -1px;
+}
+.bar::-webkit-slider-thumb::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 1px;
+    background-color: #000;
+    transform: translateY(-50%);
+}
+
+.bar::-webkit-slider-thumb:active {
+    background: linear-gradient(180deg,#8A91A0, #2D3240);
 }
 
 @keyframes marquee {
