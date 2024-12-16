@@ -19,8 +19,8 @@ async function updateTrackInfo(filePath) {
         const metadata = await ipcRenderer.invoke('get-audio-metadata', filePath);
         if (metadata) {
             console.log('Song metadata:', metadata);
-            const artist = metadata.common.artist;
-            const title = metadata.common.title;
+            const artist = metadata.common.artist || 'Unknown Artist';
+            const title = metadata.common.title || 'Unknown Title';
             const duration = metadata.format.duration;
             const formattedDuration = formatTime(duration);
 
@@ -32,8 +32,12 @@ async function updateTrackInfo(filePath) {
 
             const fileName = metadata.fileName;
 
-            const songInfo = `${artist} - ${title} (${formattedDuration}) *** ${fileName}`;
+            const songInfo = `${artist} - ${title} (${formattedDuration}) *** ${fileName} ***`;
             trackInfo.textContent = songInfo;
+            // reset the marquee after new load
+            trackInfo.scrollAmount = 0;
+            trackInfo.scrollAmount = 2;
+
 
             fileSpeedKbps.textContent = kbps;
             fileSpeedKhz.textContent = khz;
@@ -74,36 +78,50 @@ const handleLoadFile = (file) => {
     audio.load();
     console.log(audio);
     updateTrackInfo(file);
+    handlePlay();
 }
 
 const handlePlay = () => {
-    document.getElementById('audio').play();
+    audio.play();
+    document.getElementById('current-function-icon').className = 'play';
 }
 
 const handlePause = () => {
-    document.getElementById('audio').pause();
+    audio.pause();
+    document.getElementById('current-function-icon').className = 'pause';
 }
 
 const handleStop = () => {
-    document.getElementById('audio').pause();
-    document.getElementById('audio').currentTime = 0;
+    audio.pause();
+    audio.currentTime = 0;
+    document.getElementById('current-function-icon').className = 'stop';
 }
 
 const handleForward = () => {
-    document.getElementById('audio').currentTime += 10;
+    audio.currentTime += 10;
 }
 
 const handleBack = () => {
-    document.getElementById('audio').currentTime -= 10;
+    audio.currentTime -= 10;
 }
 
 const handleShuffle = () => {
-    document.getElementById('audio').shuffle = !document.getElementById('audio').shuffle;
+    audio.shuffle = !audio.shuffle;
 }
 
 const handleRepeat = () => {
-    document.getElementById('audio').repeat = !document.getElementById('audio').repeat;
+    audio.repeat = !audio.repeat;
 }
+
+document.getElementById('btn-quit').addEventListener('click', () => {
+    console.log('quit has been clicked');
+    ipcRenderer.send('quit-app');
+});
+
+document.getElementById('btn-minimize').addEventListener('click', () => {
+    console.log('minimize has been clicked');
+    ipcRenderer.send('minimize-app');
+});
 
 document.getElementById('open-playlist-window').addEventListener('click', () => {
     ipcRenderer.send('toggle-playlist-window');

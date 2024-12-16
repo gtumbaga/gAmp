@@ -12,7 +12,7 @@ ipcMain.handle('choose-file', async () => {
     const result = await dialog.showOpenDialog({
         properties: ['openFile'],
         filters: [
-            { name: 'Audio Files', extensions: ['mp3', 'aac', 'm4a'] }
+            { name: 'Audio Files', extensions: ['mp3', 'aac', 'm4a', 'webm'] }
         ]
     });
 
@@ -61,6 +61,15 @@ app.on('ready', () => {
     mainWindow.loadFile('index.html');
     mainWindow.on('closed', () => {
         mainWindow = null;
+    });
+
+    ipcMain.on('quit-app', () => {
+        console.log('renderer sent quit-app');
+        app.quit();
+    });
+    ipcMain.on('minimize-app', () => {
+        // TODO: minimize app
+        mainWindow.minimize();
     });
 
     ipcMain.on('toggle-playlist-window', (event) => {

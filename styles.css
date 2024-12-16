@@ -190,12 +190,12 @@ body {
     opacity: 0.7;
 }
 
-.buttonsHolder .btn i.icn-back { mask-image: url('./img/icon-backward-solid.svg'); }
-.buttonsHolder .btn i.icn-play { mask-image: url('./img/icon-play-solid.svg'); }
-.buttonsHolder .btn i.icn-pause { mask-image: url('./img/icon-pause-solid.svg'); }
-.buttonsHolder .btn i.icn-stop { mask-image: url('./img/icon-stop-solid.svg'); }
-.buttonsHolder .btn i.icn-forward { mask-image: url('./img/icon-forward-solid.svg'); }
-.buttonsHolder .btn i.icn-eject { mask-image: url('./img/icon-eject-solid.svg'); }
+i.icn-back { mask-image: url('./img/icon-backward-solid.svg'); }
+i.icn-play { mask-image: url('./img/icon-play-solid.svg'); }
+i.icn-pause { mask-image: url('./img/icon-pause-solid.svg'); }
+i.icn-stop { mask-image: url('./img/icon-stop-solid.svg'); }
+i.icn-forward { mask-image: url('./img/icon-forward-solid.svg'); }
+i.icn-eject { mask-image: url('./img/icon-eject-solid.svg'); }
 
 .buttonsHolder .otherButtons .btn {
     height: 22px;
@@ -350,8 +350,8 @@ body {
     width: 100px;
     text-align: right;
     position: absolute;
-    right: 4px;
-    top: 0;
+    right: 8px;
+    top: 4px;
 }
 
 .marqueeDisplay {
@@ -374,13 +374,16 @@ body {
 
     white-space: nowrap;
     overflow: hidden;
-}
-.marqueeDisplay marquee {
-    display: block;
-    height: calc(100% - 2px);
+
+    /* overflow-x: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch; */
 }
 .marqueeDisplay .track-info {
-    display: inline-block;
+    display: block;
+    height: calc(100% - 2px);
+    padding: 0px 20px;
     height: calc(100% - 2px);
     /* animation: marquee 15s linear infinite; */
 }
@@ -484,6 +487,32 @@ body {
     border-right-width: 1px;
     border-bottom-width: 1px;
 }
+
+.current-function {
+    position: absolute;
+    left: 16px;
+    top: 8px;
+    width: 30px;
+    height: 30px;
+}
+#current-function-icon {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+#current-function-icon i {
+    width: 16px;
+    height: 16px;
+    mask-size: 16px 16px;
+    mask-repeat: no-repeat;
+    background: var(--fontColor);
+    display: block;
+    margin: 0 auto;
+    display: none;
+}
+#current-function-icon.stop i.icn-stop { display: block; }
+#current-function-icon.play i.icn-play { display: block; }
+#current-function-icon.pause i.icn-pause { display: block; }
 
 @keyframes marquee {
     0% { transform: translateX(4%); }

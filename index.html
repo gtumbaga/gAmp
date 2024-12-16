@@ -15,15 +15,22 @@
         <div class="pillOutter">
             <div class="pill draggable"></div>
             <div class="controls">
-                <button class="btn btn-trafficlight"><i class="icn icn-minimize"></i></button>
+                <button id="btn-minimize" class="btn btn-trafficlight"><i class="icn icn-minimize"></i></button>
                 <!-- <button class="btn btn-trafficlight"><i class="icn icn-shrink"></i></button> -->
-                <button class="btn btn-trafficlight"><i class="icn icn-close"></i></button>
+                <button id="btn-quit" class="btn btn-trafficlight"><i class="icn icn-close"></i></button>
             </div>
         </div>
     </div>
     <div class="body">
 
         <div class="digitalDisplay">
+            <div id="currentFunction" class="current-function">
+                <div id="current-function-icon" class="stop">
+                    <i class="icn icn-stop"></i>
+                    <i class="icn icn-play"></i>
+                    <i class="icn icn-pause"></i>
+                </div>
+            </div>
             <div id="audioTime" class="time">
                 00:00
             </div>
@@ -32,11 +39,11 @@
             <marquee
                 id="trackInfo"
                 class="track-info"
-                behavior="scroll"
+                behavior="alternate"
                 direction="left"
-                scrollamount="3"
+                scrollamount="2"
                 loop="infinite"
-            > </marquee>
+            ></marquee>
         </div>
         <div class="fileSpeedDisplay">
             <div class="kbps"><div id="fileSpeedKbps" class="box">&nbsp;</div>kbps</div>
