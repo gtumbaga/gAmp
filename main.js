@@ -59,6 +59,9 @@ app.on('ready', () => {
     });
 
     mainWindow.loadFile('index.html');
+    // open dev tools
+    // don't forget to comment this out before submitting
+    mainWindow.webContents.openDevTools();
     mainWindow.on('closed', () => {
         mainWindow = null;
     });

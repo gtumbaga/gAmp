@@ -10,6 +10,15 @@ const fileSpeedKbps = document.querySelector('#fileSpeedKbps');
 const fileSpeedKhz = document.querySelector('#fileSpeedKhz');
 const volumeBar = document.querySelector('#volumeBar');
 const panBar = document.querySelector('#panBar');
+const audioCtx = new AudioContext();
+const sourceNode = audioCtx.createMediaElementSource(audio);
+const analyser = audioCtx.createAnalyser();
+const gainNode = audioCtx.createGain();
+sourceNode.connect(analyser);
+analyser.connect(gainNode);
+gainNode.connect(audioCtx.destination);
+const canvas = document.querySelector('#visualizer');
+const canvasCtx = canvas.getContext('2d');
 
 
 
@@ -76,7 +85,7 @@ const handleChooseFile = async () => {
 const handleLoadFile = (file) => {
     audio.src = file;
     audio.load();
-    console.log(audio);
+    //console.log(audio);
     updateTrackInfo(file);
     handlePlay();
 }
@@ -144,11 +153,93 @@ document.getElementById('btn-back').addEventListener('click', handleBack);
 document.getElementById('btn-shuffle').addEventListener('click', handleShuffle);
 document.getElementById('btn-repeat').addEventListener('click', handleRepeat);
 
+// drag and drop
+// Prevent default drag behaviors
+document.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+});
+
+// document.addEventListener('dragenter', (e) => {
+//     e.preventDefault();
+//     e.stopPropagation();
+// });
+
+function updateVisualizer() {
+    // update the analyser
+    // const dataArray = new Float32Array(analyser.fftSize);
+    const dataArray = new Uint8Array(analyser.fftSize);
+
+    analyser.getByteFrequencyData(dataArray);
+    const bufferLength = analyser.frequencyBinCount;
+
+    // Clear the canvas
+    canvasCtx.fillStyle = 'rgb(0, 0, 0)';
+    canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // const barWidth = (canvas.width / bufferLength) * 2.5;
+    // const barWidth = (canvas.width / bufferLength) * 2;
+    // const barWidth = (canvas.width / ((bufferLength/50))) - 2;
+    const barWidth = (canvas.width / 35) -2;
+    let barHeight;
+    let x = 0;
+
+    for (let i = 0; i < bufferLength; i++) {
+        // barHeight = dataArray[i] / 2;
+        barHeight = (dataArray[i] / 255) * canvas.height;
+        // canvasCtx.fillStyle = `rgb(${dataArray[i]}, 255, 0)`;
+        canvasCtx.fillStyle = `rgb(10, ${dataArray[i]}, 10)`;
+        canvasCtx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
+
+        //every 30th bar, draw it
+        if (i % 30 === 0) {
+            // console.log('i', i);
+            // console.log('barHeight', dataArray[i]);
+            canvasCtx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
+        }
+
+        x += barWidth + 2;
+    }
+}
+
+// Handle the drop
+document.addEventListener('drop', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    console.log('Dropped data:', e.dataTransfer);
+    console.log('Files:', e.dataTransfer.files);
+    console.log('items:', e.dataTransfer.items);
+
+    const files = e.dataTransfer.files;
+    if (files.length > 0) {
+        // Try multiple ways to get the file path
+        // const filePath = files[0].path || files[0].webkitRelativePath;
+        // const filePath = e.dataTransfer.files[0].path;
+        const filePath = files[0].path; // Full path of the dropped file
+
+
+        // For debugging
+        console.log('Dropped file:', files[0]);
+        console.log('File path:', filePath);
+        console.log('File type:', files[0].type);
+
+        if (filePath) {
+            handleLoadFile(filePath);
+        } else {
+            console.log('falling back to FileReader');
+            handleLoadFile(e.dataTransfer.files[0].path);
+        }
+    }
+});
+
 // Update progress bar as audio plays
 audio.addEventListener('timeupdate', () => {
     const progress = (audio.currentTime / audio.duration) * 100;
     progressBar.value = progress;
     audioTime.textContent = formatTime(audio.currentTime);
+
+    // requestAnimationFrame(updateVisualizer);
 });
 
 // Load metadata to set max value
@@ -164,9 +255,14 @@ progressBar.addEventListener('input', () => {
 });
 
 volumeBar.addEventListener('input', () => {
-    audio.volume = volumeBar.value / 100;
+    // audio.volume = volumeBar.value / 100;
+    gainNode.gain.value = volumeBar.value / 100;
 });
 
 panBar.addEventListener('input', () => {
     audio.pan = panBar.value / 100;
 });
+
+setInterval(() => {
+    requestAnimationFrame(updateVisualizer);
+}, 1000/30); // 30 fps

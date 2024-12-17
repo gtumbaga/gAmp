@@ -514,6 +514,16 @@ i.icn-eject { mask-image: url('./img/icon-eject-solid.svg'); }
 #current-function-icon.play i.icn-play { display: block; }
 #current-function-icon.pause i.icn-pause { display: block; }
 
+#visualizer {
+    position: absolute;
+    left: 8px;
+    top: 36px;
+    width: 130px;
+    height: 36px;
+
+    background: #000;
+}
+
 @keyframes marquee {
     0% { transform: translateX(4%); }
     50% { transform: translateX(calc(-104% + 238px)); }
