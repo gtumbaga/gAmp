@@ -8,9 +8,10 @@ let mainWindow;
 let playlistWindow = null;
 let isPlaylistWindowOpen = false;
 
-ipcMain.handle('get-file-path', async (event, file) => {
-    console.log('get-file-path', file);
-    return webUtils.getPathForFile(file);
+ipcMain.handle('formatTime', async (event, seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = Math.floor(seconds % 60);
+    return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
 });
 
 ipcMain.handle('choose-file', async () => {

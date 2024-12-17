@@ -28,10 +28,10 @@ async function updateTrackInfo(filePath) {
         const metadata = await ipcRenderer.invoke('get-audio-metadata', filePath);
         if (metadata) {
             console.log('Song metadata:', metadata);
-            const artist = metadata.common.artist || 'Unknown Artist';
-            const title = metadata.common.title || 'Unknown Title';
+            const artist = metadata.common.artist || null;
+            const title = metadata.common.title || null;
             const duration = metadata.format.duration;
-            const formattedDuration = formatTime(duration);
+            const formattedDuration = await ipcRenderer.invoke('formatTime', duration);
 
             const bitrate = metadata.format.bitrate;
             const sampleRate = metadata.format.sampleRate;
@@ -41,7 +41,20 @@ async function updateTrackInfo(filePath) {
 
             const fileName = metadata.fileName;
 
-            const songInfo = `${artist} - ${title} (${formattedDuration}) *** ${fileName} ***`;
+            let songInfo = '';
+            switch (true) {
+                case artist === null && title === null:
+                    songInfo = `(${formattedDuration}) *** ${fileName} ***`;
+                    break;
+                case artist === null && title !== null:
+                    songInfo = `${title} (${formattedDuration}) *** ${fileName} ***`;
+                    break;
+                case artist !== null && title === null:
+                    songInfo = `${artist} (${formattedDuration}) *** ${fileName} ***`;
+                    break;
+                default:
+                    songInfo = `${artist} - ${title} (${formattedDuration}) *** ${fileName} ***`;
+            }
             trackInfo.textContent = songInfo;
             // reset the marquee after new load
             trackInfo.scrollAmount = 0;
@@ -66,14 +79,6 @@ async function updateTrackInfo(filePath) {
         console.error('Error reading metadata:', error);
     }
 }
-
-// Function to format time from seconds to MM:SS
-function formatTime(seconds) {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = Math.floor(seconds % 60);
-    return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
-}
-
 
 const handleChooseFile = async () => {
     const filePath = await ipcRenderer.invoke('choose-file');
@@ -223,10 +228,10 @@ function updateVisualizer() {
 }
 
 // Update progress bar as audio plays
-audio.addEventListener('timeupdate', () => {
+audio.addEventListener('timeupdate', async () => {
     const progress = (audio.currentTime / audio.duration) * 100;
     progressBar.value = progress;
-    audioTime.textContent = formatTime(audio.currentTime);
+    audioTime.textContent = await ipcRenderer.invoke('formatTime', audio.currentTime);
 });
 
 // Load metadata to set max value
