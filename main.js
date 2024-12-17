@@ -1,5 +1,5 @@
 // main.js
-const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, webUtils } = require('electron');
 const mm = require('music-metadata');
 const commonWindowWidth = 450;
 const path = require('path');
@@ -8,11 +8,16 @@ let mainWindow;
 let playlistWindow = null;
 let isPlaylistWindowOpen = false;
 
+ipcMain.handle('get-file-path', async (event, file) => {
+    console.log('get-file-path', file);
+    return webUtils.getPathForFile(file);
+});
+
 ipcMain.handle('choose-file', async () => {
     const result = await dialog.showOpenDialog({
         properties: ['openFile'],
         filters: [
-            { name: 'Audio Files', extensions: ['mp3', 'aac', 'm4a', 'webm'] }
+            { name: 'Audio Files', extensions: ['mp3', 'aac', 'm4a'] }
         ]
     });
 

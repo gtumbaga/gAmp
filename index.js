@@ -1,4 +1,4 @@
-const { ipcRenderer } = require('electron');
+const { ipcRenderer, webUtils } = require('electron');
 
 // Get the elements
 const audio = document.querySelector('#audio');
@@ -165,6 +165,26 @@ document.addEventListener('dragover', (e) => {
 //     e.stopPropagation();
 // });
 
+// Handle the drop
+document.addEventListener('drop', async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    console.log('Dropped data:', e.dataTransfer);
+    console.log('Files:', e.dataTransfer.files);
+    console.log('items:', e.dataTransfer.items);
+
+    const files = e.dataTransfer.files;
+    // Get the file path using IPC
+    if (files.length > 0) {
+
+        const path = webUtils.getPathForFile(files[0]);
+        if (path) {
+            handleLoadFile(path);
+        }
+    }
+});
+
 function updateVisualizer() {
     // update the analyser
     // const dataArray = new Float32Array(analyser.fftSize);
@@ -202,44 +222,11 @@ function updateVisualizer() {
     }
 }
 
-// Handle the drop
-document.addEventListener('drop', (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    console.log('Dropped data:', e.dataTransfer);
-    console.log('Files:', e.dataTransfer.files);
-    console.log('items:', e.dataTransfer.items);
-
-    const files = e.dataTransfer.files;
-    if (files.length > 0) {
-        // Try multiple ways to get the file path
-        // const filePath = files[0].path || files[0].webkitRelativePath;
-        // const filePath = e.dataTransfer.files[0].path;
-        const filePath = files[0].path; // Full path of the dropped file
-
-
-        // For debugging
-        console.log('Dropped file:', files[0]);
-        console.log('File path:', filePath);
-        console.log('File type:', files[0].type);
-
-        if (filePath) {
-            handleLoadFile(filePath);
-        } else {
-            console.log('falling back to FileReader');
-            handleLoadFile(e.dataTransfer.files[0].path);
-        }
-    }
-});
-
 // Update progress bar as audio plays
 audio.addEventListener('timeupdate', () => {
     const progress = (audio.currentTime / audio.duration) * 100;
     progressBar.value = progress;
     audioTime.textContent = formatTime(audio.currentTime);
-
-    // requestAnimationFrame(updateVisualizer);
 });
 
 // Load metadata to set max value
