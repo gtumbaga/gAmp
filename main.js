@@ -30,7 +30,7 @@ ipcMain.handle('choose-file', async () => {
 });
 
 // Add this handler after your existing ipcMain.handle('choose-file') handler
-ipcMain.handle('get-audio-metadata', async (event, filePath) => {
+ipcMain.handle('getAudioMetadata', async (event, filePath) => {
     try {
         const metadata = await mm.parseFile(filePath);
         // parse file name

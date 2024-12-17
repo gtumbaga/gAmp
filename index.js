@@ -25,9 +25,8 @@ const canvasCtx = canvas.getContext('2d');
 
 async function updateTrackInfo(filePath) {
     try {
-        const metadata = await ipcRenderer.invoke('get-audio-metadata', filePath);
+        const metadata = await ipcRenderer.invoke('getAudioMetadata', filePath);
         if (metadata) {
-            console.log('Song metadata:', metadata);
             const artist = metadata.common.artist || null;
             const title = metadata.common.title || null;
             const duration = metadata.format.duration;
