@@ -51,6 +51,7 @@ app.on('ready', () => {
         resizable: false,
         minimizable: false,
         webPreferences: {
+            backgroundThrottling: false, // Disable background throttling
             nodeIntegration: true,
             contextIsolation: false
         },
