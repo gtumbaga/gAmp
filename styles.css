@@ -13,6 +13,14 @@
     font-display: swap;
 }
 
+@font-face {
+    font-family: 'Aldrich';
+    src: url('./font/aldrich-regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 :root {
     --borderLight: #777578;
     --borderDark: #212035;
@@ -217,10 +225,11 @@ i.icn-eject { mask-image: url('./img/icon-eject-solid.svg'); }
     width: auto;
     color: #152630;
     height: 16px;
-    line-height: 0px;
+    line-height: 13px;
     position: relative;
     padding-left: 14px;
     padding-right: 7px;
+    font-family: 'Aldrich';
     font-size: 10px;
     overflow: hidden;
 }
@@ -241,6 +250,8 @@ i.icn-eject { mask-image: url('./img/icon-eject-solid.svg'); }
     mask-size: 10px 10px;
     display: inline-block;
     background: #152630;
+    position: relative;
+    top: .5px;
 }
 .buttonsHolder .btn .icn-repeat { mask-image: url('./img/icon-repeat-solid.svg'); }
 
@@ -362,7 +373,7 @@ i.icn-eject { mask-image: url('./img/icon-eject-solid.svg'); }
     width: 238px;
     height: 24px;
     line-height: 22px;
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Aldrich', monospace;
     font-weight: normal;
     font-size: 12px;
     background: #000;
@@ -471,11 +482,12 @@ i.icn-eject { mask-image: url('./img/icon-eject-solid.svg'); }
     gap: 8px;
 }
 .fileSpeedDisplay .box {
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Aldrich', monospace;
     margin-right: 4px;
     display: inline-block;
     width: 28px;
     height: 16px;
+    line-height: 16px;
     font-size: 11px;
     color: var(--fontColor);
     background: #000;
