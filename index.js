@@ -87,11 +87,20 @@ const handleChooseFile = async () => {
 }
 
 const handleLoadFile = (file) => {
+    // check if audio is playing
+    const keepPlaying = audio.currentTime > 0;
+
     audio.src = file;
     audio.load();
     //console.log(audio);
     updateTrackInfo(file);
     handlePlay();
+    // if audio was playing, play it again
+    // if (keepPlaying) {
+    //     handlePlay();
+    // } else {
+    //     handleStop();
+    // }
 }
 
 const handlePlay = () => {
